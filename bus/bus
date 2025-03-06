@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Bus Tracker</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    
+    <style>
+        body { margin: 0; padding: 0; }
+        #map-container, #schedule-container, #announcement-container { display: none; }
+        #map { width: 100%; height: 100vh; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+        .glass-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        .autocomplete-suggestions { 
+            position: absolute; 
+            background: white; 
+            border: 1px solid #ccc; 
+            max-height: 150px; 
+            overflow-y: auto; 
+            z-index: 1000; 
+            width: 100%;
+        }
+        .autocomplete-suggestion {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .autocomplete-suggestion:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    
+    <!-- Sidebar -->
+    <div class="fixed top-0 left-0 w-64 h-full bg-blue-900 text-white p-4">
+        <h2 class="text-xl font-bold mb-4">University Bus Tracker</h2>
+        <button onclick="toggleDarkMode()" class="bg-gray-700 px-4 py-2 rounded text-sm mb-4">Dark Mode</button>
+        
+        <div class="relative">
+            <button onclick="toggleDropdown()" class="bg-gray-600 text-white px-4 py-2 rounded">Menu</button>
+            <div id="dropdown" class="hidden absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg">
+                <a href="#" onclick="showAnnouncements()" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Announcements</a>
+                <a href="#" onclick="showSchedule()" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Bus Schedule</a>
+                <a href="#" onclick="showMap()" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">View Map</a>
+                
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- Map Section -->
+    <div id="map-container" class="ml-64 p-4">
+        <!-- Search Box UI -->
+        <div class="mb-4 flex space-x-2">
+            <input id="searchBox" type="text" placeholder="Search location..." class="p-2 border rounded w-64">
+            <button onclick="searchLocation()" class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+        </div>
+
+        <div id="map" class="mt-4"></div>
+    </div>
+
+    <!-- Bus Schedule -->
+    <div id="schedule-container" class="ml-64 p-6 hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div class="bg-blue-100 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border-l-8 border-blue-700 min-h-[300px]">
+                <h3 class="text-2xl font-bold text-blue-900 flex items-center">
+                    🚌 Bus Route 1
+                </h3>
+                <p class="text-lg text-gray-700 mt-2"><span class="font-semibold">Departure:</span> 8:00 AM</p>
+                <p class="text-lg text-gray-700"><span class="font-semibold">Arrival:</span> 8:45 AM</p>
+                <p class="text-lg text-gray-700"><span class="font-semibold">Stops:</span> Main Gate, Library, Dormitory</p>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    
+
+    <!-- Announcements Section -->
+    <div id="announcement-container" class="ml-64 p-6">
+        <h2 class="text-3xl font-bold text-blue-700 mb-4">📢 Announcements</h2>
+        <div class="space-y-4">
+            <div class="glass-card">
+                <h3 class="text-xl font-semibold text-red">🚧 Route B Delay</h3>
+                <p class="text-black-200"><strong>March 5:</strong> Expect a 10-minute delay.</p>
+            </div>
+            <div class="glass-card">
+                <h3 class="text-xl font-semibold text-black">🕗 Service Update</h3>
+                <p class="text-black-200"><strong>March 6:</strong> Buses will start at 7:00 AM instead of 6:00 AM.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let map, userMarker, searchMarker;
+        const ORS_API_KEY = "5b3ce3597851110001cf6248ad821d9b53a24c7e94f7e689cf5101db"; 
+
+
+        function showMap() {
+            hideAll();
+            document.getElementById("map-container").style.display = "block";
+
+            let bus = JSON.parse(localStorage.getItem("bus")) || {}; 
+            let userType = localStorage.getItem("userType");
+            console.log("User Type:", userType);
+
+
+            // Always initialize the map for all users
+            if (!map) {
+                map = L.map('map').setView([0, 0], 13);
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+            }
+
+            // Only allow bus users to track their location
+            if (userType==="bus") {
+                navigator.geolocation.watchPosition(pos => {
+                    const { latitude, longitude } = pos.coords;
+
+                    if (!userMarker) {
+                        userMarker = L.marker([latitude, longitude], { title: "Bus Location" }).addTo(map);
+                    } else {
+                        userMarker.setLatLng([latitude, longitude]);
+                    }
+
+                    map.setView([latitude, longitude], 14);
+                }, err => alert("Enable location access!"), { enableHighAccuracy: true });
+            } else{ 
+                navigator.geolocation.watchPosition(pos => {
+                   const { latitude, longitude } = pos.coords;
+                   map.setView([latitude, longitude], 14);
+                }, err => alert("Enable location access!"), { enableHighAccuracy: true });
+
+            }
+        }
+
+
+        function showSchedule() {
+            hideAll();
+            document.getElementById("schedule-container").style.display = "block";
+        }
+
+        function showAnnouncements() {
+            hideAll();
+            document.getElementById("announcement-container").style.display = "block";
+        }
+
+        function hideAll() {
+            document.getElementById("map-container").style.display = "none";
+            document.getElementById("schedule-container").style.display = "none";
+            document.getElementById("announcement-container").style.display = "none";
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("bg-gray-900");
+            document.body.classList.toggle("text-white");
+        }
+
+        function toggleDropdown() {
+            document.getElementById("dropdown").classList.toggle("hidden");
+        }
+
+        function searchLocation() {
+            const query = document.getElementById("searchBox").value;
+            if (!query) return alert("Enter a location to search");
+            
+            fetch(`https://photon.komoot.io/api/?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.features.length === 0) return alert("No results found!");
+                    
+                    const { coordinates } = data.features[0].geometry;
+                    const [longitude, latitude] = coordinates;
+                    
+                    if (searchMarker) map.removeLayer(searchMarker);
+                    searchMarker = L.marker([latitude, longitude])
+                        .addTo(map)
+                        .bindPopup(`📍 ${query}`)
+                        .openPopup();
+
+                    map.setView([latitude, longitude], 14);
+                })
+                .catch(err => alert("Error searching location!"));
+        }
+
+        function autocompleteSearch() {
+            const query = document.getElementById("searchBox").value;
+            if (query.length < 2) {
+                document.getElementById("autocomplete-results").classList.add("hidden");
+                return;
+            }
+
+            fetch(`https://photon.komoot.io/api/?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById("autocomplete-results");
+                    resultsDiv.innerHTML = "";
+                    
+                    data.features.forEach(feature => {
+                        const name = feature.properties.name || "Unknown Location";
+                        const suggestion = document.createElement("div");
+                        suggestion.classList.add("autocomplete-suggestion");
+                        suggestion.textContent = name;
+                        suggestion.onclick = () => {
+                            document.getElementById("searchBox").value = name;
+                            resultsDiv.classList.add("hidden");
+                            searchLocation();
+                        };
+                        resultsDiv.appendChild(suggestion);
+                    });
+                    
+                    if (data.features.length > 0) {
+                        resultsDiv.classList.remove("hidden");
+                    } else {
+                        resultsDiv.classList.add("hidden");
+                    }
+                });
+        }
+        
+        document.addEventListener("DOMContentLoaded", function () {
+           loadAnnouncements();
+           loadSchedules();
+        });
+
+        function showAnnouncements() {
+            hideAll();
+            document.getElementById("announcement-container").style.display = "block";
+
+            let userType = localStorage.getItem("userType");
+            if (userType === "bus") {
+                let container = document.getElementById("announcement-container");
+
+                // Create a wrapper div for buttons (if not already created)
+                let btnWrapper = document.getElementById("announcementBtnWrapper");
+                if (!btnWrapper) {
+                    btnWrapper = document.createElement("div");
+                    btnWrapper.id = "announcementBtnWrapper";
+                    btnWrapper.classList = "mb-4 flex gap-2"; // Adds spacing between buttons
+                    container.prepend(btnWrapper); // Ensures buttons are at the top
+                }
+
+                // Check and add Add Announcement Button
+                if (!document.getElementById("addAnnouncementBtn")) {
+                    let btn = document.createElement("button");
+                    btn.id = "addAnnouncementBtn";
+                    btn.innerText = "➕ Add Announcement";
+                    btn.classList = "bg-blue-500 text-white px-4 py-2 rounded";
+                    btn.onclick = addAnnouncement;
+                    btnWrapper.appendChild(btn);
+                }
+
+                // Check and add Remove Announcement Button
+                if (!document.getElementById("remAnnouncementBtn")) {
+                    let btn = document.createElement("button");
+                    btn.id = "remAnnouncementBtn";
+                    btn.innerText = "❌ Remove Announcement";
+                    btn.classList = "bg-red-500 text-white px-4 py-2 rounded";
+                    btn.onclick = removeAnnouncement;
+                    btnWrapper.appendChild(btn);
+                }
+            }
+        }
+
+
+
+
+        function showSchedule() {
+            hideAll();
+            document.getElementById("schedule-container").style.display = "block";
+
+            let userType = localStorage.getItem("userType");
+            if (userType === "bus") {
+                let container = document.getElementById("schedule-container");
+
+                // Create a wrapper div for buttons if it doesn't exist
+                let btnWrapper = document.getElementById("scheduleBtnWrapper");
+                if (!btnWrapper) {
+                    btnWrapper = document.createElement("div");
+                    btnWrapper.id = "scheduleBtnWrapper";
+                    btnWrapper.classList = "mb-4 flex gap-2"; // Adds spacing between buttons
+                    container.prepend(btnWrapper); // Ensures buttons are at the top
+                }
+
+                // Add Schedule Button
+                if (!document.getElementById("addScheduleBtn")) {
+                    let addBtn = document.createElement("button");
+                    addBtn.id = "addScheduleBtn";
+                    addBtn.innerText = "➕ Add Schedule";
+                    addBtn.classList = "bg-green-500 text-white px-4 py-2 rounded";
+                    addBtn.onclick = addSchedule;
+                    btnWrapper.appendChild(addBtn);
+                }
+
+                // Remove Schedule Button
+                if (!document.getElementById("remScheduleBtn")) {
+                    let remBtn = document.createElement("button");
+                    remBtn.id = "remScheduleBtn";
+                    remBtn.innerText = "❌ Remove Schedule";
+                    remBtn.classList = "bg-red-500 text-white px-4 py-2 rounded";
+                    remBtn.onclick = removeSchedule;
+                    btnWrapper.appendChild(remBtn);
+                }
+            }
+        }
+
+
+
+        // Function to add a new announcement
+        function addAnnouncement() {
+            let title = prompt("Enter announcement title:");
+            let message = prompt("Enter announcement message:");
+            
+            if (!title || !message) return alert("Title and message cannot be empty!");
+
+            let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+            announcements.push({ title, message, date: new Date().toLocaleDateString() });
+            
+            localStorage.setItem("announcements", JSON.stringify(announcements));
+            loadAnnouncements();
+        }
+
+        // Function to load announcements from storage
+        function loadAnnouncements() {
+            let container = document.getElementById("announcement-container");
+            container.innerHTML = "<h2 class='text-3xl font-bold text-blue-700 mb-4'>📢 Announcements</h2>";
+
+            let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+            announcements.forEach(ann => {
+                let div = document.createElement("div");
+                div.classList.add("glass-card", "shadow-lg","border-l-8","hover:shadow-2xl","border-zinc-900","min-h-[100px]");
+                div.innerHTML = `<h3 class="text-xl font-semibold">${ann.title}</h3>
+                                <p class="text-black-200"><strong>${ann.date}:</strong> ${ann.message}</p>`;
+                container.appendChild(div);
+            });
+        }
+
+        // Function to add a new bus schedule
+        function addSchedule() {
+            let route = prompt("Enter bus route:");
+            let departure = prompt("Enter departure time:");
+            let arrival = prompt("Enter arrival time:");
+            let stops = prompt("Enter stops (comma-separated):");
+            
+            if (!route || !departure || !arrival || !stops) return alert("All fields are required!");
+
+            let schedules = JSON.parse(localStorage.getItem("schedules")) || [];
+            schedules.push({ route, departure, arrival, stops });
+            
+            localStorage.setItem("schedules", JSON.stringify(schedules));
+            loadSchedules();
+        }
+        function removeAnnouncement() {
+            let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+            if (announcements.length === 0) return alert("No announcements to remove!");
+
+            let index = prompt(`Enter the index (1-${announcements.length}) of the announcement to remove:`);
+            index = parseInt(index) - 1;
+
+            if (index < 0 || index >= announcements.length || isNaN(index)) return alert("Invalid index!");
+
+            announcements.splice(index, 1);
+            localStorage.setItem("announcements", JSON.stringify(announcements));
+            loadAnnouncements();
+        }
+        function removeSchedule() {
+            let schedules = JSON.parse(localStorage.getItem("schedules")) || [];
+            if (schedules.length === 0) return alert("No schedules to remove!");
+
+            let index = prompt(`Enter the index (1-${schedules.length}) of the schedule to remove:`);
+            index = parseInt(index) - 1;
+
+            if (index < 0 || index >= schedules.length || isNaN(index)) return alert("Invalid index!");
+
+            schedules.splice(index, 1);
+            localStorage.setItem("schedules", JSON.stringify(schedules));
+            loadSchedules();
+        }
+
+
+
+        // Function to load schedules from storage
+        function loadSchedules() {
+            let container = document.getElementById("schedule-container");
+            container.innerHTML = "<h2 class='text-3xl font-bold text-blue-700 mb-4'>🚌 Bus Schedules</h2>";
+
+            let schedules = JSON.parse(localStorage.getItem("schedules")) || [];
+            const colorMappings = {
+                "bg-blue-100": "border-blue-500",
+                "bg-green-100": "border-green-500",
+                "bg-yellow-100": "border-yellow-500",
+                "bg-red-100": "border-red-500",
+                "bg-purple-100": "border-purple-500",
+                "bg-pink-100": "border-pink-500",
+                "bg-indigo-100": "border-indigo-500",
+                "bg-teal-100": "border-teal-500",
+                "bg-orange-100": "border-orange-500",
+                "bg-lime-100": "border-lime-500"
+            };
+            const scheduleColors = Object.keys(colorMappings);
+
+
+            // Create a flex container for rows
+            let rowDiv = null;
+            
+            schedules.forEach((sch, index) => {
+                const bgColor = scheduleColors[index % scheduleColors.length]; // Get background color
+                const borderColor = colorMappings[bgColor];
+                if (index % 2 === 0) {  
+                    rowDiv = document.createElement("div"); 
+                    rowDiv.classList.add("flex", "gap-6", "mb-6"); // Flexbox for 2 per row
+                    container.appendChild(rowDiv);
+                }
+                
+
+                let div = document.createElement("div");
+                div.classList.add(bgColor, "p-6", "rounded-xl", "shadow-lg", "hover:shadow-2xl", "transition-shadow", "duration-300", "border-l-8", borderColor, "min-h-[250px]", "w-1/2");
+
+                div.innerHTML = `<h3 class="text-2xl font-bold text-black-900">${sch.route}</h3>
+                                <p><strong>Departure:</strong> ${sch.departure}</p>
+                                <p><strong>Arrival:</strong> ${sch.arrival}</p>
+                                <p><strong>Stops:</strong> ${sch.stops}</p>`;
+                
+                rowDiv.appendChild(div); // Append to the current row
+            });
+        }
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
