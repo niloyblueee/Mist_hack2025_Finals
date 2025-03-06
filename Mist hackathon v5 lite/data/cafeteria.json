@@ -1,0 +1,18 @@
+[
+    {
+      "id": 1,
+      "name": "Burger",
+      "price": 120,
+      "stock": 10,
+      "image": "images/burger.jpg",
+      "available": true
+    },
+    {
+      "id": 2,
+      "name": "Pizza",
+      "price": 250,
+      "stock": 5,
+      "image": "images/pizza.jpg",
+      "available": true
+    }
+  ]

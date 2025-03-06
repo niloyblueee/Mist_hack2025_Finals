@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafeteria - All-in-One University App</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="nav-container">
+      <h1>NEOFETCH</h1>
+      <div class="nav-links">
+        <span id="logged-in-user"></span>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <header>
+      <h1>Cafeteria Menu</h1>
+      <p id="logged-in-message"></p>
+    </header>
+
+    <!-- Food Menu -->
+    <section id="food-menu">
+      <h2>Today's Menu</h2>
+      <div id="food-list" class="food-list">
+        <!-- Food items will be dynamically added here -->
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2024 All-in-One University App. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="js/cafeteria.js"></script>
+</body>
+</html>
