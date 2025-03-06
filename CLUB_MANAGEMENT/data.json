@@ -1,0 +1,27 @@
+{
+    "enrolled_clubs": [
+        "Multicultural Club"
+      
+    ],
+    "available_clubs": [
+        "Cultural Club",
+        "Robotics Club",
+        "Debate Club",
+        "Football Club",
+        "Computer Club"
+    ],
+    "upcoming_events": [
+        {
+            "event": "Robotics Workshop",
+            "date": "2025-03-10"
+        },
+        {
+            "event": "Coding Hackathon",
+            "date": "2025-03-15"
+        },
+        {
+            "event": "Music Concert",
+            "date": "2025-03-20"
+        }
+    ]
+}
