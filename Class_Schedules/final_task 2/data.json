@@ -1,0 +1,77 @@
+{
+    "users": [
+        {
+            "email": "shafiur.rahman.alvi@g.bracu.ac.bd",
+            "password": "password123",
+            "name": "Shafiur Rahman Alvi",
+            "id": "23201355",
+            "department": "Computer Science",
+            "semester": "5th",
+            "schedule": [
+                {
+                    "time": "8:00 am - 10:50 am",
+                    "days": {
+                        "sunday": "",
+                        "monday": "",
+                        "tuesday": "",
+                        "wednesday": "",
+                        "thursday": "CSE221L -02 -ARC-09F-27L",
+                        "friday": "",
+                        "saturday": "CSE221L -02 -ARC-09F-27L"
+                    }
+                },
+                {
+                    "time": "11:15 pm - 11:50 pm",
+                    "days": {
+                        "sunday": "CSE221 -02 -PNP-09D-18C",
+                        "monday": "",
+                        "tuesday": "CSE221 -02 -PNP-09D-18C",
+                        "wednesday": "",
+                        "thursday": "MAT110 -16 -SKY-07H-31C",
+                        "friday": "",
+                        "saturday": "MAT110 -16 -SKY-07H-31C"
+                    }
+                },
+                {
+                    "time": "2:00 pm - 3:20 pm",
+                    "days": {
+                        "sunday": "BUS201 -16 -SEQ-07A-04C",
+                        "monday": "BIO101 -21 -TSV-07H-28C",
+                        "tuesday": "BUS201 -16 -SEQ-07A-04C",
+                        "wednesday": "BIO101 -21 -TSV-07H-28C",
+                        "thursday": "",
+                        "friday": "",
+                        "saturday": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "faculty": {
+        "PNP": {
+            "name": "Prantik Paul",
+            "designation": "Lecturer",
+            "email": "prantik.paul@bracu.ac.bd"
+        },
+        "SKY": {
+            "name": "Sakal Roy",
+            "designation": "Lecturer",
+            "email": "sakal.roy@bracu.ac.bd"
+        },
+        "SEQ": {
+            "name": "Ehsanul Haque",
+            "designation": "Senior Lecturer",
+            "email": "ehsanul.haque@bracu.ac.bd"
+        },
+        "TSV": {
+            "name": "Tasnuva Avjum",
+            "designation": "Lecturer",
+            "email": "tasnuva.avjum@bracu.ac.bd"
+        },
+        "ARC": {
+            "name": "Atonu Roy Chowdhury",
+            "designation": "Lab Faculty",
+            "email": "atonu.roy.chowdhury@bracu.ac.bd"
+        }
+    }
+}

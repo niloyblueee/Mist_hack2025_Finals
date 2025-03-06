@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar with Three-dot Icon -->
+
+        <div class="sidebar">
+            <div class="menu-icon">⋮</div>
+            <ul class="menu hidden">
+                <li><a href="cafeteria.html">Cafeteria Menu & Meal Schedules</a></li>
+                <li><a href="transport.html">University Bus Routes & Schedules</a></li>
+                <li><a href="events.html">Event & Club Management</a></li>
+            </ul>
+        </div>
+
+        <!-- Header with Logo & Search Bar -->
+        <header>
+            <img src="logo.png" alt="University Logo" class="logo">
+            <input type="text" placeholder="Search..." class="search-bar">
+            <div class="profile">
+                <img src="user.png.jpeg" alt="User" id="userIcon">
+                <div class="tooltip" id="userTooltip"></div> <!-- Removed hidden class -->
+            </div>
+        </header>
+
+        <!-- Class Schedule Table -->
+        <div class="schedule">
+            <h2>Class Schedule</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>TIME/DAY</th>
+                        <th>SUNDAY</th>
+                        <th>MONDAY</th>
+                        <th>TUESDAY</th>
+                        <th>WEDNESDAY</th>
+                        <th>THURSDAY</th>
+                        <th>FRIDAY</th>
+                        <th>SATURDAY</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleTable">
+                    <!-- Rows will be dynamically inserted -->
+                </tbody>
+            </table>
+
+            <!-- Tooltip for Faculty Details -->
+            <div id="facultyTooltip" class="tooltip-box hidden"></div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
