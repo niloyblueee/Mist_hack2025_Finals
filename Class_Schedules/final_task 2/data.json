@@ -43,6 +43,18 @@
                         "friday": "",
                         "saturday": ""
                     }
+                },
+                {
+                    "time": "12:45 am - 2:30 am", 
+                    "days": {
+                        "sunday": "BIO101 -21 -TSV-07H-28C",
+                        "monday": "BIO101 -21 -TSV-07H-28C",
+                        "tuesday": "BIO101 -21 -TSV-07H-28C",
+                        "wednesday": "BIO101 -21 -TSV-07H-28C",
+                        "thursday": "BIO101 -21 -TSV-07H-28C",
+                        "friday": "BIO101 -21 -TSV-07H-28C",
+                        "saturday": "BIO101 -21 -TSV-07H-28C"
+                    }
                 }
             ]
         }
@@ -72,6 +84,11 @@
             "name": "Atonu Roy Chowdhury",
             "designation": "Lab Faculty",
             "email": "atonu.roy.chowdhury@bracu.ac.bd"
+        },
+        "DUMMY_FACULTY": {
+            "name": "Dummy Faculty",
+            "designation": "Professor",
+            "email": "dummy.faculty@example.com"
         }
     }
 }

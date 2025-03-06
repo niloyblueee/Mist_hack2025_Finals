@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
             displayUserInfo(user); // Populate user info immediately
             displaySchedule(user.schedule);
             setupFacultyTooltips();
+            setupClassReminders(user.schedule);
         });
 
 
@@ -133,12 +134,16 @@ document.addEventListener("DOMContentLoaded", function () {
                             date.setHours(hours, minutes, 0, 0);
 
                             // If time already passed today, move to next week
-                            if (date < now) date.setDate(date.getDate() + 7);
+                            if (date < now) date.setDate(date.getDate() );
                             return date;
                         });
 
                         const timeDiff = (startTime - now) / (1000 * 60);
                         const isCurrentClass = now >= startTime && now <= endTime;
+                        console.log(isCurrentClass)
+                        console.log(now )
+                        console.log(startTime)
+                        console.log(endTime)
 
                         const formatOptions = {
                             hour: 'numeric',

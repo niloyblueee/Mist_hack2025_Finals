@@ -207,21 +207,25 @@ td {
 
 /* Class Reminder Styles */
 #classReminder {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #d9a4d5;
+    background: #9c27b0;
     color: white;
-    padding: 15px 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    max-width: 300px;
+    font-size: 16px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     text-align: center;
+
+    position: fixed;
+    bottom: 25%;
+    left: 75%;
+    transform: translateX(-50%);
+    display: block; /* Ensure it appears */
+    width: 80%;
+    max-width: 400px;
 }
 
-#classReminder.hidden {
-    display: none;
+#classReminder.show {
+    display: block;
 }
 
 #classReminder strong {
