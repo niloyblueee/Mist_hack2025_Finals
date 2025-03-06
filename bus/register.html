@@ -132,7 +132,8 @@
                 window.location.href = "loginfinal.html";
             }, 1000);
         }
-
+        const busData = JSON.parse(localStorage.getItem("bus")) || {};
+        console.log(busData);  // Output the saved data to the console
         
     </script>
 </body>
