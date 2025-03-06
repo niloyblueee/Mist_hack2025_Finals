@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - All-in-One University App</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="nav-container">
+      <h1>NEOFETCH</h1>
+      <div class="nav-links">
+        <span id="logged-in-user"></span>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <header>
+      <h1>Admin Dashboard</h1>
+      <p id="logged-in-message"></p>
+    </header>
+
+    <!-- Management Requests Section -->
+    <section id="management-requests">
+      <h2>Management Requests</h2>
+      <ul id="pending-requests">
+        <!-- Pending requests will be dynamically added here -->
+      </ul>
+    </section>
+
+    <!-- Assign Section Form -->
+    <section id="assign-section">
+      <h2>Assign Section</h2>
+      <form id="assign-form">
+        <select id="assign-user" required>
+          <!-- Users will be dynamically added here -->
+        </select>
+        <select id="assign-section-type" required>
+          <option value="cafeteria">Cafeteria</option>
+          <option value="bus">Bus Service</option>
+          <option value="events">Events</option>
+        </select>
+        <button type="submit">Assign Section</button>
+      </form>
+    </section>
+
+    <footer>
+      <p>© 2024 All-in-One University App. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

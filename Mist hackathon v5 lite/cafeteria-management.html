@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEOFETCH - Management Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, Management!</h1>
+    <div class="tabs">
+      <button class="tab-link active" onclick="openTab('orders')">Order Management</button>
+      <button class="tab-link" onclick="openTab('stock')">Stock Update</button>
+    </div>
+
+    <!-- Order Management Section -->
+    <div id="orders" class="tab-content active">
+      <h2>Order Management</h2>
+      <div class="order-list">
+        <h3>Pending Orders</h3>
+        <ul id="pending-orders">
+          <!-- Pending orders will be dynamically added here -->
+        </ul>
+        <h3>Served Orders</h3>
+        <ul id="served-orders">
+          <!-- Served orders will be dynamically added here -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- Stock Update Section -->
+    <div id="stock" class="tab-content">
+      <h2>Stock Update</h2>
+      <form id="add-food-form">
+        <input type="text" id="food-name" placeholder="Food Name" required>
+        <input type="number" id="food-price" placeholder="Price" required>
+        <input type="number" id="food-stock" placeholder="Stock" required>
+        <input type="file" id="food-image" accept="image/*" required>
+        <button type="submit">Add Food Item</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/management.js"></script>
+</body>
+</html>
