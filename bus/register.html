@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #7ba6f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 1200px;
+            height: 650px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .left {
+            width: 50%;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .right {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2575fc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #1e5bbf;
+        }
+        .recaptcha-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="study.jpg" alt="Login Illustration" width="112%" height="120%">
+        </div>
+        <div class="right">
+            <h2>Create New Account</h2>
+            <input type="text" id="username" placeholder="Input ID" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <div class="recaptcha-container">
+                <div class="g-recaptcha" data-sitekey="6LeznuoqAAAAAM57otao2DFrb7lnFg3r_wDo41IJ"></div>
+            </div>
+            <button onclick="register()">Register</button>
+            <p style="text-align:center; margin-top:10px;">
+                Already have an account? <a href="loginfinal.html">Login</a>
+            </p>
+            <p id="message"></p>
+        </div>
+    </div>
+
+    <script>
+        let users = JSON.parse(localStorage.getItem("users")) || {}; 
+        let bus = JSON.parse(localStorage.getItem("bus")) || {}; 
+
+        function register() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            const message = document.getElementById("message");
+            const recaptchaResponse = grecaptcha.getResponse();
+
+            if (!recaptchaResponse) {
+                message.style.color = "red";
+                message.style.textAlign = "center";
+                message.innerText = "Please complete the reCAPTCHA.";
+                return;
+            }
+
+            // Check if user already exists in either users or bus
+            if (users[username] || bus[username]) {
+                alert("User already exists!");
+                return;
+            }
+
+            // Assign user based on username prefix
+            if (username.startsWith("bus")) {
+                bus[username] = password;
+                localStorage.setItem("bus", JSON.stringify(bus));
+                userType = "bus"; 
+            } else {
+                users[username] = password;
+                localStorage.setItem("users", JSON.stringify(users));
+                userType = "student"; 
+            }
+
+            alert("Registration successful!");
+            localStorage.setItem("loggedInUser", username);
+            localStorage.setItem("userType", userType);
+
+            setTimeout(() => {
+                window.location.href = "loginfinal.html";
+            }, 1000);
+        }
+
+        
+    </script>
+</body>
+</html>

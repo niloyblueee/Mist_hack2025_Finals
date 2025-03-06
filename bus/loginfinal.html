@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #7ba6f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 1200px;
+            height: 650px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .left {
+            width: 50%;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .right {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2575fc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #1e5bbf;
+        }
+        .recaptcha-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="study.jpg" alt="Login Illustration" width="112%" height="120%">
+        </div>
+        <div class="right">
+            <h2>Student Login</h2>
+            <h2>Enter your details to sign in</h2>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <div class="recaptcha-container">
+                <div class="g-recaptcha" data-sitekey="6LeznuoqAAAAAM57otao2DFrb7lnFg3r_wDo41IJ"></div>
+            </div>
+            <button onclick="login()">Login</button>
+            <p style="text-align:center; margin-top:10px;">
+                Don't have an account? <a href="register.html">Create new account</a>
+            </p>
+            <p id="message"></p>
+        </div>
+    </div>
+
+    <script>
+        const demo = {
+            "user1": "password123",
+            "admin": "adminpass",
+            "test": "testpass"
+        };
+
+        function login() {
+            const usernamedemo = document.getElementById("username").value;
+            const passworddemo = document.getElementById("password").value;
+            const message = document.getElementById("message");
+            const recaptchaResponse = grecaptcha.getResponse();
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            let users = JSON.parse(localStorage.getItem("users")) || {};
+            let bus = JSON.parse(localStorage.getItem("bus")) || {};
+
+            if (!recaptchaResponse) {
+                message.style.color = "red";
+                message.style.textAlign= "center";
+                message.innerText = "Please complete the reCAPTCHA.";
+                return;
+            }
+
+            if (users[username] && users[username]=== password) {
+                localStorage.setItem("loggedInUser", username);
+                localStorage.setItem("userType", "student");
+                message.style.color = "lightgreen";
+                message.style.textAlign = "center";
+                message.innerText = "Login successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "final.html";
+                }, 1000);
+            } else if (demo[usernamedemo] && demo[usernamedemo] === passworddemo) {
+
+
+                message.style.color = "lightgreen";
+                message.style.textAlign = "center";
+                message.innerText = "Login successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "final.html";
+                }, 1000);
+            } else if (bus[username] && bus[username] === password) {
+                localStorage.setItem("loggedInUser", username);
+                localStorage.setItem("userType", "bus");
+                message.style.color = "lightgreen";
+                message.style.textAlign = "center";
+                message.innerText = "Login successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "final.html";
+                }, 1000);
+            } else {
+                message.style.color = "red";
+                message.style.textAlign = "center";
+                message.innerText = "Invalid username or password.";
+            }
+        }
+        
+    </script>
+</body>
+</html>
