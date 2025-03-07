@@ -158,6 +158,9 @@ function goToCafeteria() {
 function goToCafeteriaManagement() {
   window.location.href = 'cafeteria-management.html';
 }
+function goToBus() {
+  window.location.href = '../bus/final.html';
+}
 
 function goToClubManagement(){
   window.location.href = '../CLUB_MANAGEMENT/index.html';
