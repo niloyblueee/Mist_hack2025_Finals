@@ -53,17 +53,13 @@
         <h2 class="text-xl font-bold mb-4">University Bus Tracker</h2>
         <button onclick="toggleDarkMode()" class="bg-gray-700 px-4 py-2 rounded text-sm mb-4">Dark Mode</button>
         
-        <div class="relative">
-            <button onclick="toggleDropdown()" class="bg-gray-600 text-white px-4 py-2 rounded">Menu</button>
-            <div id="dropdown" class="hidden absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg">
-                <a href="#" onclick="showAnnouncements()" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Announcements</a>
-                <a href="#" onclick="showSchedule()" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">Bus Schedule</a>
-                <a href="#" onclick="showMap()" class="block px-4 py-2 text-gray-700 hover:bg-gray-200">View Map</a>
-                
-                
-            </div>
+        <div class="space-y-2">
+            <button onclick="showAnnouncements()" class="w-full bg-gray-600 text-white px-4 py-2 rounded">Announcements</button>
+            <button onclick="showSchedule()" class="w-full bg-gray-600 text-white px-4 py-2 rounded">Bus Schedule</button>
+            <button onclick="showMap()" class="w-full bg-gray-600 text-white px-4 py-2 rounded">View Map</button>
         </div>
     </div>
+    
     
     <!-- Map Section -->
     <div id="map-container" class="ml-64 p-4">
