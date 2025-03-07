@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Perform sign-out actions here
         alert('You have been signed out.');
         // Redirect to login page or perform other sign-out actions
-        window.location.href = 'login.html'; // Replace with your login page URL
+        window.location.href = '../Mist hackathon v5 lite/index.html' // Replace with your login page URL
     }
 
     function setupClassReminders(schedule) {
