@@ -46,6 +46,7 @@ window.onclick = function(event) {
 // Sign out functionality
 function signOut() {
     alert("Signing out...");
+    window.location.href = 'CLUB_MANAGEMENT/Mist_hack2025_Finals/Mist hackathon v5 lite/index.html';
     // Add your sign-out logic here (e.g., redirect to login page)
 }
 
