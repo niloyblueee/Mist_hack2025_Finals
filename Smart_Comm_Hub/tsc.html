@@ -65,14 +65,23 @@
     </div>
 
     <script>
-        
+        let users = {
+            "user1": { role: "admin" },
+            "user2": { role: "member" }
+        };
 
-        console.log(name)
-        
+        let currentUser = localStorage.getItem("currentUser");
+        if (!currentUser || !users[currentUser]) {
+            currentUser = prompt("Enter your username:");
+            if (users[currentUser]) {
+                localStorage.setItem("currentUser", currentUser);
+            } else {
+                alert("Invalid user");
+                location.reload();
+            }
+        }
 
-
-
-        document.getElementById("current-user").textContent = name;
+        document.getElementById("current-user").textContent = currentUser;
 
         function loadChat() {
             let chatBox = document.getElementById("chat-box");
@@ -80,7 +89,7 @@
             let messages = JSON.parse(localStorage.getItem("chat")) || [];
             messages.forEach(msg => {
                 let messageDiv = document.createElement("div");
-                messageDiv.className = "message " + (msg.user === name ? "user" : "other");
+                messageDiv.className = "message " + (msg.user === currentUser ? "user" : "other");
                 messageDiv.textContent = msg.user + ": " + msg.text;
                 chatBox.appendChild(messageDiv);
             });
@@ -93,7 +102,7 @@
             if (messageText === "") return;
 
             let messages = JSON.parse(localStorage.getItem("chat")) || [];
-            messages.push({ user: name, text: messageText });
+            messages.push({ user: currentUser, text: messageText });
             localStorage.setItem("chat", JSON.stringify(messages));
 
             messageInput.value = "";
