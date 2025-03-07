@@ -23,9 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
             setupClassReminders(user.schedule);
         });
 
-
-
-
     function setupFacultyTooltips() {
         const facultyTooltip = document.getElementById('facultyTooltip');
         let hoverTimeout;
@@ -55,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
     function showTooltip(cell) {
         const text = cell.textContent;
         const facultyCode = text.split('-')[2].trim();
@@ -80,11 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-
-
-
-
-
     function positionTooltip(event, tooltip) {
         const x = event.clientX + 15;
         const y = event.clientY + 15;
@@ -97,12 +88,25 @@ document.addEventListener("DOMContentLoaded", function () {
             <strong>${user.name}</strong><br>
             ID: ${user.id}<br>
             Dept: ${user.department}<br>
-            Semester: ${user.semester}
+            Semester: ${user.semester}<br>
+            <a href="#" id="signOutLink" style="color: #1a73e8; text-decoration: underline; cursor: pointer;">Sign Out</a>
         `;
+
+        // Add event listener for the sign-out link
+        const signOutLink = document.getElementById('signOutLink');
+        signOutLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            signOut();
+        });
     }
 
+    function signOut() {
+        // Perform sign-out actions here
+        alert('You have been signed out.');
+        // Redirect to login page or perform other sign-out actions
+        window.location.href = 'login.html'; // Replace with your login page URL
+    }
 
-    // Add this after your existing code inside DOMContentLoaded
     function setupClassReminders(schedule) {
         const reminderBox = document.createElement('div');
         reminderBox.id = 'classReminder';
@@ -134,16 +138,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             date.setHours(hours, minutes, 0, 0);
 
                             // If time already passed today, move to next week
-                            if (date < now) date.setDate(date.getDate() );
+                            if (date < now) date.setDate(date.getDate());
                             return date;
                         });
 
                         const timeDiff = (startTime - now) / (1000 * 60);
                         const isCurrentClass = now >= startTime && now <= endTime;
-                        console.log(isCurrentClass)
-                        console.log(now )
-                        console.log(startTime)
-                        console.log(endTime)
 
                         const formatOptions = {
                             hour: 'numeric',
@@ -182,7 +182,6 @@ document.addEventListener("DOMContentLoaded", function () {
         checkClassTimes(); // Initial check
     }
 
-
     function displaySchedule(schedule) {
         const tableBody = document.getElementById("scheduleTable");
         tableBody.innerHTML = "";
@@ -209,5 +208,3 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
-
