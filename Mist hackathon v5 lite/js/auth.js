@@ -172,8 +172,16 @@ function goToSchedule(){
   window.location.href = '../Class_Schedules/final_task 2/index.html';
   
 }
+function goToSchedule(){
+  window.location.href = '../Class_Schedules/final_task 2/index.html';
+  
+}
 function gotoTodo(){
   window.location.href = '../to-do/index.html';
+  
+}
+function gotolost(){
+  window.location.href = 'lost-and-found.html';
   
 }
 // Function to switch between Login and Sign Up tabs
