@@ -187,6 +187,9 @@ function gotoChat(name){
 function gotoPanic(){
   window.location.href = '../bus/panic.html';
   
+}function gotolost(){
+  window.location.href = 'lost-and-found.html';
+  
 }
 function comms(){
   window.location.href = '../Smart_Comm_Hub/communication-hub.html';
