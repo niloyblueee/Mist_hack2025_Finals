@@ -3,13 +3,34 @@ document.addEventListener("DOMContentLoaded", function () {
     const userTooltip = document.getElementById("userTooltip"); // Get user tooltip element
     const profile = document.querySelector(".profile"); // Get profile container
 
+    let hoverTimeout;
+
     // Profile hover functionality
     profile.addEventListener("mouseenter", function () {
-        userTooltip.style.display = "block";
+        clearTimeout(hoverTimeout); // Clear any existing timeout
+        userTooltip.style.display = "block"; // Show the tooltip
     });
 
     profile.addEventListener("mouseleave", function () {
-        userTooltip.style.display = "none";
+        // Start a timeout when leaving the profile icon
+        hoverTimeout = setTimeout(() => {
+            if (!userTooltip.matches(':hover')) {
+                userTooltip.style.display = "none"; // Hide the tooltip if the mouse is not over it
+            }
+        }, 300); // 300ms delay before hiding
+    });
+
+    // Keep the tooltip visible if the mouse is over it
+    userTooltip.addEventListener("mouseenter", function () {
+        clearTimeout(hoverTimeout); // Clear the timeout
+        userTooltip.style.display = "block"; // Ensure the tooltip stays visible
+    });
+
+    userTooltip.addEventListener("mouseleave", function () {
+        // Hide the tooltip when the mouse leaves it
+        hoverTimeout = setTimeout(() => {
+            userTooltip.style.display = "none";
+        }, 300); // 300ms delay before hiding
     });
 
     fetch("data.json")
