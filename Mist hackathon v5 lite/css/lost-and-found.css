@@ -1,0 +1,84 @@
+/* Basic Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  
+  .nav-container {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-links button {
+    background-color: #ff4b4b;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  header h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  #add-lost-item {
+    margin-bottom: 20px;
+  }
+  
+  #lost-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  #lost-item-form input, #lost-item-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  #lost-item-form button {
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #lost-items-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #lost-items-list li {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  #admin-section {
+    margin-top: 20px;
+  }
+  
+  #admin-actions button {
+    padding: 10px;
+    background-color: #ff4b4b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

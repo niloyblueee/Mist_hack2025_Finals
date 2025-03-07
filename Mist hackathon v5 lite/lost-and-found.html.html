@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lost and Found - All-in-One University App</title>
+  <link rel="stylesheet" href="css/lost-and-found.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="nav-container">
+      <h1>NEOFETCH</h1>
+      <div class="nav-links">
+        <span id="logged-in-user"></span>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <header>
+      <h1>Lost and Found</h1>
+      <p id="logged-in-message"></p>
+    </header>
+
+    <!-- Add Lost Item Form (Visible to Students) -->
+    <section id="add-lost-item">
+      <h2>Report a Lost Item</h2>
+      <form id="lost-item-form">
+        <input type="text" id="item-name" placeholder="Item Name" required>
+        <textarea id="item-description" placeholder="Description" required></textarea>
+        <input type="text" id="item-location" placeholder="Lost Location" required>
+        <input type="date" id="item-date" required>
+        <button type="submit">Report Lost Item</button>
+      </form>
+    </section>
+
+    <!-- Lost Items List (Visible to Everyone) -->
+    <section id="lost-items-list">
+      <h2>Lost Items</h2>
+      <ul id="lost-items">
+        <!-- Lost items will be dynamically added here -->
+      </ul>
+    </section>
+
+    <!-- Admin Section (Visible to Admin Only) -->
+    <section id="admin-section">
+      <h2>Admin Section</h2>
+      <div id="admin-actions">
+        <button onclick="deleteAllItems()">Delete All Items</button>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2024 All-in-One University App. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="js/lost-and-found.js"></script>
+</body>
+</html>

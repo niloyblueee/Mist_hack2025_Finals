@@ -192,6 +192,11 @@ let cafeteria = JSON.parse(localStorage.getItem('cafeteria')) || [
       alert('Please fill out all fields.');
     }
   });
+  function logout() {
+  
+    alert('You have been logged out.');
+    window.location.href = 'index.html'
+  }
   
   // Load data when the page loads
   document.addEventListener('DOMContentLoaded', () => {
