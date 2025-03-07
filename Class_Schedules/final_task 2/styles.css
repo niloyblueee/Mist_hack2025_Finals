@@ -181,6 +181,7 @@ header {
 /* Schedule */
 .schedule {
     margin-top: 20px;
+    background-color: white;
 }
 
 table {
