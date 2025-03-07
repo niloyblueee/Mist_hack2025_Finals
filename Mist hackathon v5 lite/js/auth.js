@@ -172,6 +172,10 @@ function goToSchedule(){
   window.location.href = '../Class_Schedules/final_task 2/index.html';
   
 }
+function gotoTodo(){
+  window.location.href = '../to-do/index.html';
+  
+}
 // Function to switch between Login and Sign Up tabs
 function openTab(tabName) {
   // Hide all tab content
