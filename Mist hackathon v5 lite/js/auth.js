@@ -184,6 +184,13 @@ function gotoPanic(){
   window.location.href = '../bus/panic.html';
   
 }
+function comms(){
+  window.location.href = '../Smart_Comm_Hub/communication-hub.html';
+  
+}
+
+
+
 // Function to switch between Login and Sign Up tabs
 function openTab(tabName) {
   // Hide all tab content
