@@ -1,5 +1,5 @@
 // Initialize the users array from localStorage
-let users = JSON.parse(localStorage.getItem('data/users')) || [
+let users = JSON.parse(localStorage.getItem('users')) || [
   
     {
       "id": "admin1",
@@ -10,7 +10,7 @@ let users = JSON.parse(localStorage.getItem('data/users')) || [
       "approved": true
     }
   
-];
+] || [];
 console.log(users)
 
 // Function to handle login
