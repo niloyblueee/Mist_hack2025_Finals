@@ -159,6 +159,10 @@ function goToCafeteriaManagement() {
   window.location.href = 'cafeteria-management.html';
 }
 
+function goToClubManagement(){
+  window.location.href = '../CLUB_MANAGEMENT/index.html';
+}
+
 // Function to switch between Login and Sign Up tabs
 function openTab(tabName) {
   // Hide all tab content
