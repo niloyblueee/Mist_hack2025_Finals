@@ -120,8 +120,14 @@
             hideAll();
             document.getElementById("map-container").style.display = "block";
 
-            let bus = JSON.parse(localStorage.getItem("bus")) || {}; 
-            let userType = localStorage.getItem("userType");
+            
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const userType = urlParams.get('role'); // 
+
+            
+            
+            
             console.log("User Type:", userType);
 
 
@@ -248,7 +254,8 @@
             hideAll();
             document.getElementById("announcement-container").style.display = "block";
 
-            let userType = localStorage.getItem("userType");
+            const urlParams = new URLSearchParams(window.location.search);
+            const userType = urlParams.get('role'); 
             if (userType === "bus") {
                 let container = document.getElementById("announcement-container");
 
@@ -289,8 +296,10 @@
         function showSchedule() {
             hideAll();
             document.getElementById("schedule-container").style.display = "block";
+            const urlParams = new URLSearchParams(window.location.search);
+            const userType = urlParams.get('role'); 
 
-            let userType = localStorage.getItem("userType");
+
             if (userType === "bus") {
                 let container = document.getElementById("schedule-container");
 

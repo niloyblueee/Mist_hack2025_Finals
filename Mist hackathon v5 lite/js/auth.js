@@ -41,7 +41,7 @@ document.getElementById('signin').addEventListener('submit', (e) => {
               window.location.href = 'cafeteria-management.html';
               break;
             case 'bus':
-              window.location.href = 'bus-management.html';
+              window.location.href = '../bus/final.html?role=bus';
               break;
             case 'events':
               window.location.href = 'event-management.html';
@@ -81,6 +81,9 @@ function showLoggedInUI(user) {
   // Show the appropriate features based on the user's role
   if (user.role === 'student') {
     document.getElementById('student-features').style.display = 'grid';
+  }
+  else if (user.role === 'management') {
+    document.getElementById('management-services').style.display = 'grid';
   }
 }
 
@@ -158,8 +161,8 @@ function goToCafeteria() {
 function goToCafeteriaManagement() {
   window.location.href = 'cafeteria-management.html';
 }
-function goToBus() {
-  window.location.href = '../bus/final.html';
+function goToBus(role) {
+  window.location.href = '../bus/final.html?role=student';
 }
 
 // Function to switch between Login and Sign Up tabs

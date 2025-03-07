@@ -61,7 +61,12 @@ document.getElementById('assign-form').addEventListener('submit', (e) => {
     alert(`Assigned ${section} to ${user.name}`);
   }
 });
+function logout() {
 
+
+  alert('You have been logged out.');
+  window.location.href = '../Mist hackathon v5 lite/index.html'
+}
 // Load data when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   displayPendingRequests();
