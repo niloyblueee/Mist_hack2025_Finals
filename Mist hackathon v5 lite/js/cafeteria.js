@@ -127,7 +127,11 @@ let cafeteria = JSON.parse(localStorage.getItem('cafeteria')) || [
       alert('Selected item is out of stock or insufficient quantity available.');
     }
   }
-  
+  // Function to handle logout
+function logout() {
+
+  window.location.href = 'index.html'
+}
   // Load data when the page loads
   document.addEventListener('DOMContentLoaded', () => {
     displayFoodMenu();

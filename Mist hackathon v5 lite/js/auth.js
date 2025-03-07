@@ -97,6 +97,7 @@ function logout() {
   document.getElementById('signup').style.display = 'none';
 
   alert('You have been logged out.');
+  window.location.href = '../index.html'
 }
 
 // Function to handle signup
