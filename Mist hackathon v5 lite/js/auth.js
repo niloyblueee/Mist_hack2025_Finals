@@ -158,6 +158,9 @@ function goToCafeteria() {
 function goToCafeteriaManagement() {
   window.location.href = 'cafeteria-management.html';
 }
+function goToBus() {
+  window.location.href = '../bus/final.html';
+}
 
 // Function to switch between Login and Sign Up tabs
 function openTab(tabName) {
