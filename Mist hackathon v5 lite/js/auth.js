@@ -176,6 +176,14 @@ function gotoTodo(){
   window.location.href = '../to-do/index.html';
   
 }
+function gotoChat(name){
+  window.location.href = `../Smart_Comm_Hub/tsc.html`;
+  
+}
+function gotoPanic(){
+  window.location.href = '../bus/panic.html';
+  
+}
 // Function to switch between Login and Sign Up tabs
 function openTab(tabName) {
   // Hide all tab content
