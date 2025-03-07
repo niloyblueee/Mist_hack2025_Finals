@@ -1,5 +1,17 @@
 // Initialize the users array from localStorage
-let users = JSON.parse(localStorage.getItem('users')) || [];
+let users = JSON.parse(localStorage.getItem('data/users')) || [
+  
+    {
+      "id": "admin1",
+      "name": "Admin",
+      "email": "admin@bracu.ac.bd",
+      "password": "admin123",
+      "role": "admin",
+      "approved": true
+    }
+  
+];
+console.log(users)
 
 // Function to handle login
 document.getElementById('signin').addEventListener('submit', (e) => {
