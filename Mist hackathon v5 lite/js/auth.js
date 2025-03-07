@@ -165,7 +165,10 @@ function goToBus() {
 function goToClubManagement(){
   window.location.href = '../CLUB_MANAGEMENT/index.html';
 }
-
+function goToSchedule(){
+  window.location.href = '../Class_Schedules/final_task 2/index.html';
+  
+}
 // Function to switch between Login and Sign Up tabs
 function openTab(tabName) {
   // Hide all tab content
