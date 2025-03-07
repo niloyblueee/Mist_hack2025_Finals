@@ -226,8 +226,8 @@ td {
     max-width: 400px;
 }
 
-#classReminder.show {
-    display: block;
+#classReminder.hidden {
+    display: none;
 }
 
 #classReminder strong {
